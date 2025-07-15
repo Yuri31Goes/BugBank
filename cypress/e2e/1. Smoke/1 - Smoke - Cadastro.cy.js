@@ -56,4 +56,14 @@ describe('Smoke teste - Cadastro', () => {
     
   })
 
+  it('03 - Tentar realizar cadastro (Dados não preenchidos)', () => {
+
+  cy.contains('button','Registrar').click()
+   cy.contains('button', 'Cadastrar').click({force: true})
+   //Validar NÃO cadastro
+   cy.get('.input__warging').should('exist') 
+   cy.url().should('not.eq', 'https://bugbank.netlify.app/#') 
+   
+  })  
+
 })
