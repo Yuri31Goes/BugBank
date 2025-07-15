@@ -1,12 +1,59 @@
-
+import { gerarNome } from "../../support/utils"
 describe('Smoke teste - Cadastro', () => {
 
     beforeEach( () => {
     cy.visit('')
     })
 
-  it('01 - Realizar Cadastro Válido', () => {
-    cy.CadastroUsuários()
+  it('01 - Realizar Cadastro (SEM SALDO)', () => {
+    const Dados = {
+      email:'testes01aja@gmail.com',
+      nome:gerarNome(),
+      senha:'123456',
+      saldo:'não'
+
+    }
+    cy.CadastroUsuários(Dados)
+
+    //Validar Cadastro
+    cy.get('.styles__ContainerInformations-sc-8zteav-3')
+    .should('exist')
+    cy.get('#btnCloseModal').click()
+    cy.Login(Dados)
+    cy.url().should('eq', 'https://bugbank.netlify.app/home')
+
+    //Validar Saldo 
+   cy.get('#textBalance').invoke('text').then((text) => {
+  const normalizado = text.trim().replace(/\s+/g, ' ')
+  expect(normalizado).to.eq('Saldo em conta R$ 0,00')
+})
+
+
+  })
+
+    it('02 - Realizar Cadastro (COM SALDO)', () => {
+    const Dados = {
+      email:'testes01aja@gmail.com',
+      nome:gerarNome(),
+      senha:'123456',
+      saldo:'sim'
+
+    }
+    cy.CadastroUsuários(Dados)
+
+    //Validar Cadastro
+    cy.get('.styles__ContainerInformations-sc-8zteav-3')
+    .should('exist')
+    cy.get('#btnCloseModal').click()
+    cy.Login(Dados)
+    cy.url().should('eq', 'https://bugbank.netlify.app/home')
+
+   //Validar Saldo 
+   cy.get('#textBalance').invoke('text').then((text) => {
+   const normalizado = text.trim().replace(/\s+/g, ' ')
+   expect(normalizado).to.not.eq('Saldo em conta R$ 0,00')
+    })
+    
   })
 
 })
