@@ -1,4 +1,4 @@
- export function gerarNome() {
+ function gerarNome() {
   const primeirosNomes = [
     'Ana', 'Bruno', 'Carlos', 'Daniela', 'Eduardo', 'Fernanda',
     'Gabriel', 'Helena', 'Igor', 'João', 'Karina', 'Lucas',
@@ -18,3 +18,11 @@
 
   return `${primeiro} ${sobrenome1} ${sobrenome2}`
 }
+
+
+function generateEmail() {
+  const timestamp = Date.now();
+  return `usuario${timestamp}@teste.com`;
+}
+
+module.exports = {gerarNome,generateEmail };
